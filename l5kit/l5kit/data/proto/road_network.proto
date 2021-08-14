@@ -22,21 +22,23 @@ message GeoLocation {
     sfixed32 lat_e7 = 1;
 
     // -180..180 Longitude in degrees multiplied by 1e7.
+    //-180..180 经度乘以 1e7
     // Allows for at least ~1cm precision (finer at higher latitudes).
     sfixed32 lng_e7 = 2;
 
     // Optional Altitude in cm, relative to sea level.
+    //可选海拔高度（厘米，相对于海平面）
     oneof Altitude {
         sint32 altitude_cm = 3;
     }
 }
 
-// A GeoFrame defines a local Cartesian coordinate system at a point on the Earth,
+// A GeoFrame defines a local Cartesian笛卡尔 coordinate system at a point on the Earth,
 // with the Z axis pointing "up".
 //
 // Here is one example of how one could convert from local coordinates in the frame
 // to an "Earth Center Frame" with origin at the center of the Earth, Z pointing to the North pole,
-// and X pointing to the prime meridian (https://en.wikipedia.org/wiki/ECEF),
+// and X pointing to the prime meridian(https://en.wikipedia.org/wiki/ECEF),X 指向本初子午线
 // using the WGS84 ellipsoid
 // (a flattened sphere, with the "height" ~0.3% shorter than the equatorial radius).
 // https://en.wikipedia.org/wiki/World_Geodetic_System#A_new_World_Geodetic_System:_WGS_84
@@ -89,21 +91,25 @@ message LocalizedString {
 
 // Map "intersections". There may be several nodes per junction, to represent sub-connections
 // between different streets merging first etc
+//映射“交叉点”。 每个结点可能有多个节点，以表示子连接不同街道之间首先合并等
 message RoadNetworkNode {
 
     // A representative (lat, lng) coordinate for the intersection, expected to generally lie
     // within the real-world area corresponding to the intersection.
+    //十字路口的代表性 (lat, lng) 坐标，预计通常位于与交叉点对应的真实世界区域内。
     GeoLocation location = 1;
 
     // Incident road segments, ordered clockwise around the node. The first segment is arbitrary.
+    //事件路段，围绕节点顺时针排列。 第一段随意
     repeated GlobalId road_segments = 2;
 
-    // Z-level to help sort this node with respect to other nodes and segments that it may overlap
+    // Z-level to help sort this node with respect to other nodes and segments that it may overlap重叠
     // with in lat,lng.
     // E.g. in a complex interchange, a lane split would be modeled with a node, and we need to be
     // able to sort it with respect to other segments in the interchange.
+    //例如。 在复杂的立交桥中，车道分裂将用一个节点建模，我们需要能够相对于立交桥中的其他路段对其进行排序。
     sint32 z_level = 3;
-
+    
     // Id of junction, when this node belongs to a complex junction covering several nodes.
     GlobalId junction = 4;
 }
