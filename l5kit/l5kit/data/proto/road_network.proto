@@ -10,6 +10,7 @@ option go_package = "maps";
 
 // Id from a globally unique space.
 // Can correspond to objects from different entity classes, e.g. nodes, segments, etc.
+//可以对应来自不同实体类的对象，例如 节点、段等。
 message GlobalId {
 
     bytes id = 1;
@@ -17,6 +18,7 @@ message GlobalId {
 
 message GeoLocation {
     // -90..90 Latitude in degrees multiplied by 1e7. Allows for ~1cm precision.
+    //-90..90 纬度乘以 1e7。 允许 ~1cm 精度。
     sfixed32 lat_e7 = 1;
 
     // -180..180 Longitude in degrees multiplied by 1e7.
